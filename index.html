@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="description" content="Crypto Webminer Custom Pool Miner | Electroneum | Monero | Bytecoin | IntenseCoin | Sumokoin | Dinastycoin | Graft | SuperiorCoin | Turtlecoin | Stellite | DERO | Masari | Cryptonight | Cryptonight-Lite | Cryptonight-Fast | Cryptonight-UPX2 | Cryptonight-Heavy | Cryptonight-Saber(Tube) Custom Pool Support - Mining in your Browser">
+	<meta name="keywords" content="Crypto Miner, Crypto Webminer, Electroneum, Bytecoin, Monero, IntenseCoin, Sumokoin, Dinastycoin, Graft, SuperiorCoin, Turtlecoin mining, Custom Pool Support Cryptonight, Electroneum mining, etn mining, etn miner, etn coins, Monero mining, XMR miner, XMR mining, Stellite mining, Haven XHV, Bittube Webminer for Cryptocurrency">
+	<meta name="author" content="PiTi - crypto-webminer.com">
+	<meta name="robots" content="noindex, nofollow">
+
+	<title>Custom Pool Webminer for Cryptonight | CN-Lite | CN-Fast | CN-Fast2 | CN-Pico | CN-Half | Argon2id - Chukwa | CN-Heavy | CN-Saber - Mining in your Browser</title>
+        <script src="scripts/jquery-3.2.1.min.js"></script>
+	<script src="scripts/jquery.cookie-1.4.1.min.js"></script>
+<script>
+	$(function() {
+	if ($.cookie("pooladdress")) {
+			var str = "./scripts/mmo.js?v9?perfekt=wss://";
+			var pool = "?jason=" + $.cookie("pooladdress");
+			var algovari  = $.cookie("algovariant");
+			var links = str+algovari+pool;
+			
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = links; 
+			document.getElementsByTagName("head")[0].appendChild(script);
+	} 
+	else
+	{
+		        //var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn/r?jason=xxx";							//seems like not working.
+		    var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=letshash.it:6560";			//seems like working, on low difficulty, port for diff=2000
+		    //var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=xaupool.walemo.com:36633";	//seems like working
+			//var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=xau.pool-pay.com:7797";		//seems like not working, because autoswithing used, and difficulty so high.
+				
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = str; 
+			document.getElementsByTagName("head")[0].appendChild(script);
+	}
+  });
+	</script>
+	<script src="scripts/gustav.js?v290720"></script>
+	<script>
+	function myFunction() {
+	var walletcustom;
+        var pooladdress;
+	var algovariant;
+	var pass;
+	walletcustom = $('#walletcustom').val();
+	pooladdress = $('#pooladdress').val();
+	algovariant =  $('#algovariant').val();
+	pass =  $('#pass').val();
+	
+	$.cookie("walletcustom", walletcustom, {
+		expires: 365
+		});
+		$.cookie("pooladdress", pooladdress, {
+		expires: 365
+		});
+		$.cookie("algovariant", algovariant, {
+		expires: 365
+		});
+		$.cookie("pass", pass, {
+		expires: 365
+		});
+	location.reload();
+	}
+	
+	</script>
+
+    <link rel="stylesheet" href="scripts/styles.css">
+	
+    <script src="scripts/Chart.min.js"></script>
+</head>
+
+<h2 align="center">Customs Pool mining<br> by crypto-webminer.com</h2>
+<h2 align="center">Cryptonight | CN-Lite | CN-Fast | CN-Fast2 | CN-Pico | CN-Half | Argon2id - Chukwa | CN-Heavy | CN-Saber Coins</h2>
+<div class="row" align="center">
+    <div class="box">
+        <h3>hashes/s</h3>
+        <h2 id="hashes-per-second">0</h2>
+    </div>
+    <div class="box">
+        <h3>threads</h3>
+        <h2>
+			<span id="threads">2</span>
+			<span id="thread-add" class="action"> + </span>
+			<span class="divide"> / </span>
+			<span id="thread-remove" class="action"> - </span>
+		</h2>
+    </div>
+</div>
+
+<div class="row" align="center">
+    <div class="box">
+        <h3> Total Hashes | Accepted Shares</h3>
+        <h2 id="accepted-shares">0</h2>
+    </div>
+    <div class="box">
+    </div>
+</div>
+<center>
+<details>
+  <summary>--- Algorithm setting informations (click here) ---</summary>
+<p align="center">CN R Coins need ?algo=cn/r</p>
+<p align="center">CN V8 Coins need ?algo=cn/2</p>
+<p align="center">CN V8 Reverse Waltz Coins need ?algo=cn/rwz</p>
+<p align="center">CN V7 Coins need ?algo=cn/1</p>
+<p align="center">CN ASIC Coins need ?algo=cn/0</p>
+<p align="center">CN Lite V7 Coins need ?algo=cn-lite/1</p>
+<p align="center">CN Pico need ?algo=cn-pico/trtl</p>
+<p align="center">CN Fast V2 | CN Half Coins need ?algo=cn/half</p>
+<p align="center">CN Fast Coins need ?algo=cn/msr</p>
+<p align="center">CN UPX2 Coins need ?algo=cn/upx</p>
+<p align="center">Argon2id | Chukwa Coins need ?algo=chukwa</p>
+<p align="center">Algo autoswitch (most profitable, payout in xmr) on moneroocean.stream Pool, need ?algo=cn/r | Pool address: faster.moneroocean</p>
+<p align="center">CN-Saber (BitTube) need ?algo=cn-heavy/tube</p>
+<p align="center">CN-Heavy XHV-Haven Coins need ?algo=cn-heavy/xhv</p>
+<p align="center">CN-Heavy Classic Coins need ?algo=cn-heavy/0</p>
+<p align="center">Join Discord for News & Changelog - https://discord.gg/FaaZaJ4</p>
+</details></center>
+<div class="row">
+<input class="text" type="text" id="algovariant" placeholder="Enter the ALGO|VARIANT -  e.g. ?algo=cn/r" value="?algo=cn-pico/trtl">
+</div>
+<div class="row">
+<input class="text" type="text" id="pooladdress" placeholder="Enter your Custom SatoriGold Pool -  e.g. gulf.moneroocean.stream:10008" value="letshash.it:6560">
+</div>
+<div class="row">
+    <input class="text" type="text" id="walletcustom" placeholder="Enter your pool login, or the custom SatoriGold Public Wallet Address and Press Start"
+		value="Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296"
+	>
+</div>
+<div class="row">
+    <input class="text" type="text" id="pass" placeholder="Enter your Pool Password for e.g. settings | default is x"
+		value="Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296@letsTESTit"
+	>
+</div>
+<div align="center">
+			<form><input type="button" onclick="myFunction()" id="saving" value="Pool & Wallet Address Save"></form>
+		</div>
+<div class="row">
+    <canvas id="barchart-canvas" class="stats" width="100%" height="27%"></canvas>
+</div>
+
+<button id="start">Start</button><p align="center"> DDOS Protection: Mining starts in 5-10 Sec</p>
+	
+<!-- //Keep and respect copyright -->
+<p align="center">© 2017 - 2020 | PiTi - <a href="https://www.crypto-webminer.com">crypto-webminer.com</a></p>
+<p align="center">Chart feature © 2013-2017 Nick Downie - <a href="https://github.com/chartjs/Chart.js/blob/master/LICENSE.md">Released under the MIT license</a></p>
+			
+	
+<div align="center">
+<form action="https://www.crypto-webminer.com/miningguides.html" target="_blank"><td><input type="submit" value="You need a helping guide?"/></td></form>
+</div>
+<br>
+<div align="center">
+<form action="https://www.crypto-webminer.com/integrate.html"><td><input type="submit" value="You are webmaster or blogger?"/></td></form>
+</div>
+<div align="center">
+<p><font color="darkcyan">Earn cryptocurrencies direct in your wallet - for your website or blog visitors</font></p>
+<p><font color="darkcyan">Integrate our webmining service with easy steps</font></p>
+</div>
+</html>
