@@ -8,61 +8,112 @@
 	<meta name="author" content="PiTi - crypto-webminer.com">
 	<meta name="robots" content="noindex, nofollow">
 
+	<title>SatoriGold (SAU) Webminer for Cryptonight-turtle (CN-Pico) - Mining in your Browser</title>
+
+<!-- Its functions are broader, this is a... -->
+<!--
 	<title>Custom Pool Webminer for Cryptonight | CN-Lite | CN-Fast | CN-Fast2 | CN-Pico | CN-Half | Argon2id - Chukwa | CN-Heavy | CN-Saber - Mining in your Browser</title>
+-->
         <script src="scripts/jquery-3.2.1.min.js"></script>
 	<script src="scripts/jquery.cookie-1.4.1.min.js"></script>
 <script>
+
 	$(function() {
-	if ($.cookie("pooladdress")) {
-			var str = "./scripts/mmo.js?v9?perfekt=wss://";
-			var pool = "?jason=" + $.cookie("pooladdress");
-			var algovari  = $.cookie("algovariant");
-			var links = str+algovari+pool;
+	
+		var str = "./scripts/mmo.js?v9?perfekt=wss://";						//this script "mmo.js", was been downloaded here: https://daslebenistkeinponyhof.netlify.com/mmo.js , and included here.
+	
+		var default_pool = (
+			//"xxx"								//old default value - seems like not working.
+			//"xaupool.walemo.com:36633"		//seems like working
+			"letshash.it:6560"					//seems like working, on low difficulty, port for diff=2000
+			//xau.pool-pay.com:7797";			//seems like not working, because autoswithing used, and maybe - difficulty so high.
+		);
+		var default_algo = "?algo=cn-pico/trtl";
+	
+		if(
+				IsLocalStorageAvailable === true				//if localstorage is available
+			&&	(localStorage.getItem("pooladdress") !== null)	//and if pool address record exists there
+		){
+			var pool = "?jason=" + (localStorage.getItem("pooladdress") || default_pool);
+			var algovari  = localStorage.getItem("algovariant") || (default_algo);
+		}
+		else if ($.cookie("pooladdress")) {
+			var pool = "?jason=" + ($.cookie("pooladdress") || default_pool);
+			var algovari  = ($.cookie("algovariant") || (default_algo));
+		}
+		else
+		{
+			var pool = "?jason=" + (default_pool);
+			var algovari = "?jason=" + (default_algo);
+		}
+		var links = str+algovari+pool;
 			
-			var script = document.createElement("script");
-			script.type = "text/javascript";
-			script.src = links; 
-			document.getElementsByTagName("head")[0].appendChild(script);
-	} 
-	else
-	{
-		        //var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn/r?jason=xxx";							//seems like not working.
-		    var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=letshash.it:6560";			//seems like working, on low difficulty, port for diff=2000
-		    //var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=xaupool.walemo.com:36633";	//seems like working
-			//var str = "./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=xau.pool-pay.com:7797";		//seems like not working, because autoswithing used, and difficulty so high.
-				
-			var script = document.createElement("script");
-			script.type = "text/javascript";
-			script.src = str; 
-			document.getElementsByTagName("head")[0].appendChild(script);
-	}
-  });
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = links; 
+		document.getElementsByTagName("head")[0].appendChild(script);
+	});
 	</script>
 	<script src="scripts/gustav.js?v290720"></script>
 	<script>
 	function myFunction() {
-	var walletcustom;
+		var walletcustom;
         var pooladdress;
-	var algovariant;
-	var pass;
-	walletcustom = $('#walletcustom').val();
-	pooladdress = $('#pooladdress').val();
-	algovariant =  $('#algovariant').val();
-	pass =  $('#pass').val();
+		var algovariant;
+		var pass;
+		walletcustom = $('#walletcustom').val();
+		pooladdress = $('#pooladdress').val();
+		algovariant =  $('#algovariant').val();
+		pass =  $('#pass').val();
 	
-	$.cookie("walletcustom", walletcustom, {
-		expires: 365
-		});
-		$.cookie("pooladdress", pooladdress, {
-		expires: 365
-		});
-		$.cookie("algovariant", algovariant, {
-		expires: 365
-		});
-		$.cookie("pass", pass, {
-		expires: 365
-		});
-	location.reload();
+		if(
+				IsLocalStorageAvailable === true
+			||	window.location.origin === 'file://'	//Google Chrome do not allow to use cookies for local-pages.
+		)
+		{
+			//Try to save values, in localstorage.
+			if(IsLocalStorageAvailable === true){		//If LocalStorage is available
+				//save values there:
+				localStorage.setItem("algovariant",		algovariant);
+				localStorage.setItem("pooladdress",		pooladdress);
+				localStorage.setItem("walletcustom",	walletcustom);
+				localStorage.setItem("pass",			pass);
+				
+				console.log(
+								"Saved in localStorage:\n"+
+								algovariant+'\n'+
+								pooladdress+'\n'+
+								walletcustom+'\n'+
+								pass+'\n'
+				);
+			}else{
+				console.log("LocalStorage is not available. IsLocalStorageAvailable = ",IsLocalStorageAvailable);
+			}
+		}
+		else{	//else, use Jquery-cookie
+			$.cookie("walletcustom", walletcustom, {
+				expires: 365
+				});
+				$.cookie("pooladdress", pooladdress, {
+				expires: 365
+				});
+				$.cookie("algovariant", algovariant, {
+				expires: 365
+				});
+				$.cookie("pass", pass, {
+				expires: 365
+				});
+				
+				console.log(
+								"Saved in cookie:\n"+
+								algovariant+'\n'+
+								pooladdress+'\n'+
+								walletcustom+'\n'+
+								pass+'\n'
+				);
+				
+		}
+		location.reload();
 	}
 	
 	</script>
@@ -71,9 +122,12 @@
 	
     <script src="scripts/Chart.min.js"></script>
 </head>
-
+<body>
+<!--
 <h2 align="center">Customs Pool mining<br> by crypto-webminer.com</h2>
 <h2 align="center">Cryptonight | CN-Lite | CN-Fast | CN-Fast2 | CN-Pico | CN-Half | Argon2id - Chukwa | CN-Heavy | CN-Saber Coins</h2>
+-->
+<div style="background-color: #ffff66; opacity: 0.9;">
 <div class="row" align="center">
     <div class="box">
         <h3>hashes/s</h3>
@@ -98,6 +152,7 @@
     <div class="box">
     </div>
 </div>
+<!--
 <center>
 <details>
   <summary>--- Algorithm setting informations (click here) ---</summary>
@@ -118,32 +173,39 @@
 <p align="center">CN-Heavy Classic Coins need ?algo=cn-heavy/0</p>
 <p align="center">Join Discord for News & Changelog - https://discord.gg/FaaZaJ4</p>
 </details></center>
+-->
 <div class="row">
-<input class="text" type="text" id="algovariant" placeholder="Enter the ALGO|VARIANT -  e.g. ?algo=cn/r" value="?algo=cn-pico/trtl">
+<!--type was been text, readonly added, then type changed to type hidden-->
+<input class="text" type="hidden" readonly="readonly" id="algovariant" placeholder="Enter the ALGO|VARIANT -  e.g. ?algo=cn/r" value="?algo=cn-pico/trtl" title="Select algoritm: See source code.">
 </div>
 <div class="row">
-<input class="text" type="text" id="pooladdress" placeholder="Enter your Custom SatoriGold Pool -  e.g. gulf.moneroocean.stream:10008" value="letshash.it:6560">
+<input class="text" type="text" id="pooladdress" placeholder="Enter your Custom SatoriGold Pool -  e.g. xau.pool-pay.com:3793" value="letshash.it:6560" title="PoolAdress:PORT">
 </div>
 <div class="row">
     <input class="text" type="text" id="walletcustom" placeholder="Enter your pool login, or the custom SatoriGold Public Wallet Address and Press Start"
 		value="Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296"
+		title="Login - Your miner Xau-address"
 	>
+	<br>
+	<a href="https://satorigold.github.io/SatoriGold-paperwallet/"><font style="background: #32d1b1; color: #161618;">Generate</font></a>
 </div>
 <div class="row">
     <input class="text" type="text" id="pass" placeholder="Enter your Pool Password for e.g. settings | default is x"
 		value="Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296@letsTESTit"
+		title="Password - miner Xau-address.FixedDifficulty@WorkerName"
 	>
 </div>
 <div align="center">
-			<form><input type="button" onclick="myFunction()" id="saving" value="Pool & Wallet Address Save"></form>
+			<form><input type="button" onclick="myFunction()" id="saving" value="Pool & Wallet Address Save" title="Save values, after input it."></form>
 		</div>
 <div class="row">
     <canvas id="barchart-canvas" class="stats" width="100%" height="27%"></canvas>
 </div>
 
-<button id="start">Start</button><p align="center"> DDOS Protection: Mining starts in 5-10 Sec</p>
+<button id="start" title="Start mining, after save parameters.">Start</button><p align="center"> DDOS Protection: Mining starts in 5-10 Sec</p>
 	
 <!-- //Keep and respect copyright -->
+<!--
 <p align="center">© 2017 - 2020 | PiTi - <a href="https://www.crypto-webminer.com">crypto-webminer.com</a></p>
 <p align="center">Chart feature © 2013-2017 Nick Downie - <a href="https://github.com/chartjs/Chart.js/blob/master/LICENSE.md">Released under the MIT license</a></p>
 			
@@ -157,6 +219,12 @@
 </div>
 <div align="center">
 <p><font color="darkcyan">Earn cryptocurrencies direct in your wallet - for your website or blog visitors</font></p>
-<p><font color="darkcyan">Integrate our webmining service with easy steps</font></p>
+-->
+<p><a href="./HiddenBrowserMining.html"><font color="darkcyan">Integrate our webmining service with easy steps</font></a></p>
+
+<!--
 </div>
+-->
+</div>
+</body>
 </html>

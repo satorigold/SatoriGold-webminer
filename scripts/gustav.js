@@ -1,5 +1,17 @@
 // Copyright (c) 2017 - 2019 | PiTi - crypto-webminer.com
 
+	function lsTest(){		//check is LocalStorage available (true/false)
+		var test = 'test';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;	//true
+		} catch(e) {
+			return false;	//false
+		}
+	}
+	var IsLocalStorageAvailable = lsTest();		//test is LocalStorage available? true/false
+
 $(function() {
   if(navigator.hardwareConcurrency > 1)
 	{
@@ -30,34 +42,49 @@ $(function() {
   var acceptedHashes = 0;
   var hashesPerSecond = 0;
   
-  if ($.cookie("walletcustom")) {
-    walletcustom = $.cookie("walletcustom");
-    $('#walletcustom').val(walletcustom);
-  }
-  if ($.cookie("pass")) {
-    pass = $.cookie("pass");
-    $('#pass').val(pass);
-  }
-  else
-  {
-	  pass = "x";
-  }		
-  if ($.cookie("pooladdress")) {
-    pooladdress = $.cookie("pooladdress");
-    $('#pooladdress').val(pooladdress);
-  }
-  else
-  {
-	  pooladdress = "xxx";
-  }
-  if ($.cookie("algovariant")) {
-    algovariant = $.cookie("algovariant");
-    $('#algovariant').val(algovariant);
-  }
-  else
-  {
-	  algovariant = "?algo=cn/4";
-  }
+	var defaultPool = (
+		//"xxx"								//old default value - seems like not working.
+		//"xaupool.walemo.com:36633"		//seems like working
+		"letshash.it:6560"					//seems like working, on low difficulty, port for diff=2000
+		//xau.pool-pay.com:7797";			//seems like not working, because autoswithing used, and maybe - difficulty so high.
+	);
+
+	var defaultAlgo 		= "?algo=cn-pico/trtl";
+	var defaultPoolAddress	= (	//try to get custom pool address from ls, or use default
+									//"xxx"
+									"letshash.it:6560"		//but use this
+	);
+	
+	var defaultAddress 		= "Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296";
+	
+	var defaultPass = function(walletcustom){
+		if(walletcustom === "Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296"){		//if walletcustom was not specified, and used default test address
+			return "Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296@letsTESTit";		//use this pass
+		}else{
+			return "x";	//use default pass "x"
+		}
+	}
+  
+  if(IsLocalStorageAvailable === true){	//if LocalStorage is available
+		//working with localStorage...
+	algovariant		=	localStorage.getItem("algovariant") 	|| (defaultAlgo);					//try to get custom algovariant from ls, or use default
+	pooladdress		=	localStorage.getItem("pooladdress") 	|| (defaultPoolAddress);			//try to get custom pool address from ls, or use default
+	walletcustom	=	localStorage.getItem("walletcustom")	|| (defaultAddress);				//try to get walletcustom from ls, or use default
+	pass			=	localStorage.getItem("pass") 			|| (defaultPass(walletcustom));		//try to get walletcustom from ls, or use default
+  }else{ //else, if local storage is not available...
+	//try to working with cookies.
+	algovariant		=	$.cookie("algovariant") 	|| (defaultAlgo);					//try to get custom algovariant from ls, or use default
+	pooladdress		=	$.cookie("pooladdress") 	|| (defaultPoolAddress);			//try to get custom pool address from ls, or use default
+	walletcustom	=	$.cookie("walletcustom")	|| (defaultAddress);				//try to get walletcustom from ls, or use default
+	pass			=	$.cookie("pass") 			|| (defaultPass(walletcustom));		//try to get walletcustom from ls, or use default
+  }//end working with cookies.
+														//and then
+	$('#algovariant').val(algovariant);					//set this in input
+	$('#walletcustom').val(walletcustom);				//set this in input
+	$('#pass').val(pass);								//set this in input
+	$('#pooladdress').val(pooladdress);					//set this in input
+  
+  
   function htmlEncode(value) {
     return $('<div/>').text(value).html();
   }
@@ -132,16 +159,62 @@ $(function() {
       if (walletcustom) 
       {
 		PerfektStart(walletcustom, pass, threads);
-		console.log(walletcustom);
-		$.cookie("walletcustom", walletcustom, {
-		expires: 365
-		});
-		$.cookie("pooladdress", pooladdress, {
-		expires: 365
-		});
-		$.cookie("algovariant", algovariant, {
-		expires: 365
-		});
+		console.log(
+			algovariant			+'\n'+
+			pooladdress			+'\n'+
+			walletcustom		+'\n'+
+			pass
+		);
+		
+		//save values in localstorage or in cookies.
+		if(												//if
+				IsLocalStorageAvailable === true		//localstorage is available
+			||	window.location.origin === 'file://'	//or if this is local page (Google Chrome do not allow to use cookies for local-pages.)
+		)
+		{
+			//Try to save values, in localstorage.
+			if(IsLocalStorageAvailable === true){		//If LocalStorage is available
+				//save values there:
+				localStorage.setItem("algovariant",		algovariant);
+				localStorage.setItem("pooladdress",		pooladdress);
+				localStorage.setItem("walletcustom",	walletcustom);
+				localStorage.setItem("pass",			pass);
+				
+				console.log(
+								"Saved in localStorage:\n"+
+								algovariant+'\n'+
+								pooladdress+'\n'+
+								walletcustom+'\n'+
+								pass+'\n'
+				);
+				
+			}else{
+				console.log("LocalStorage is not available. IsLocalStorageAvailable = ", IsLocalStorageAvailable);
+			}
+		}
+		else{	//else, use Jquery-cookie
+				$.cookie("walletcustom", walletcustom, {
+				expires: 365
+				});
+				$.cookie("pooladdress", pooladdress, {
+				expires: 365
+				});
+				$.cookie("algovariant", algovariant, {
+				expires: 365
+				});
+				$.cookie("pass", pass, {
+				expires: 365
+				});
+				
+				console.log(
+								"Saved in cookie:\n"+
+								algovariant+'\n'+
+								pooladdress+'\n'+
+								walletcustom+'\n'+
+								pass+'\n'
+				);
+				
+		}		
 	        stopLogger();
                 startLogger();
                 $("#start").text("Stop");

