@@ -1,0 +1,10 @@
+# Some files have CRLF, as the end of line, because after running the command:
+# >git clone --recurse-submodules -j8 git://github.com/username1565/text-encoding.git
+# Git automatically change LF to CRLF, so, to disable this, need to use:
+# >#git config --global core.autocrlf false   # do not replace LF to CRLF
+# >git config --global core.autocrlf input    # do CRLF to LF when upload, but do not replace LF to CRLF when download.
+# >git clone --recurse-submodules -j8 git://github.com/username1565/text-encoding.git
+#
+# The closest thing to "core.autocrlf=input" is to use "text=auto" in ".gitattributes."
+*               text=auto
+*               text eol=lf
